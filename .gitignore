@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+
+# Odoo log
+*.log
+
+# VSCode
+.vscode/
+.idea/
+
+# Docker volumes (如果改成 bind mount 才需要)
+odoo-data/
+odoo-db-data/
+
+# 環境檔
+.env
+
+# 系統檔
+.DS_Store
+Thumbs.db
