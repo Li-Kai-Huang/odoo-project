@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_team_tree" model="ir.ui.view">
+    <field name="name">team.management.team.tree</field>
+    <field name="model">team.management.team</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="description"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="view_team_form" model="ir.ui.view">
+    <field name="name">team.management.team.form</field>
+    <field name="model">team.management.team</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="description"/>
+            <field name="member_ids"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_team_management" model="ir.actions.act_window">
+    <field name="name">Teams</field>
+    <field name="res_model">team.management.team</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+
+  <menuitem id="menu_team_root" name="Team Management" sequence="10"/>
+  <menuitem id="menu_team" name="Teams" parent="menu_team_root" action="action_team_management"/>
+</odoo>

@@ -1,0 +1,16 @@
+[submodule "oca-addons/stock-logistics-warehouse"]
+	path = oca-addons/stock-logistics-warehouse
+	url = https://github.com/OCA/stock-logistics-warehouse.git
+	branch = 17.0
+[submodule "oca-addons/project"]
+	path = oca-addons/project
+	url = https://github.com/OCA/project.git
+	branch = 17.0
+[submodule "oca-addons/website"]
+	path = oca-addons/website
+	url = https://github.com/OCA/website.git
+	branch = 17.0
+[submodule "oca-addons/reporting-engine"]
+	path = oca-addons/reporting-engine
+	url = https://github.com/OCA/reporting-engine.git
+	branch = 17.0

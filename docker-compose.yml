@@ -1,4 +1,4 @@
-version: "3.8"
+
 
 services:
   db:
@@ -34,6 +34,7 @@ services:
       - odoo-data:/var/lib/odoo              # Odoo filestore/資料
       - ./addons:/mnt/extra-addons           # 你的自製模組
       - ./odoo.conf:/etc/odoo/odoo.conf:ro   # 設定檔（如下）
+      - ./oca-addons:/mnt/oca-addons
     command: ["odoo", "-c", "/etc/odoo/odoo.conf", "--dev=reload"]  # 開發模式熱重載
     restart: unless-stopped
 
