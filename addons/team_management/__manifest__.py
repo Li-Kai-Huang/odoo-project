@@ -7,7 +7,7 @@
     "website": "https://example.com",
     "license": "LGPL-3",
     "category": "Tools",
-    "depends": ["base"],
+    "depends": ["base","project"],
     "data": [
         "security/ir.model.access.csv",
         "views/team_views.xml",

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+  <!-- tree -->
   <record id="view_team_tree" model="ir.ui.view">
     <field name="name">team.management.team.tree</field>
     <field name="model">team.management.team</field>
@@ -11,28 +13,83 @@
     </field>
   </record>
 
+  <!-- form（成員子頁籤加 mode="tree,kanban"） -->
   <record id="view_team_form" model="ir.ui.view">
     <field name="name">team.management.team.form</field>
     <field name="model">team.management.team</field>
     <field name="arch" type="xml">
       <form>
+        <header>
+          <button name="action_open_project"
+                  type="object"
+                  string="Project"
+                  class="oe_stat_button"
+                  invisible="not project_id"/>
+        </header>
         <sheet>
           <group>
             <field name="name"/>
             <field name="description"/>
-            <field name="member_ids"/>
+            <field name="project_id"/>
+          </group>
+          <group>
+            <field name="member_ids" mode="tree,kanban" context="{'default_team_id': active_id}">
+              <tree editable="bottom">
+                <field name="name"/>
+                <field name="role"/>
+              </tree>
+              <kanban>
+                <field name="name"/>
+                <field name="role"/>
+                <templates>
+                  <t t-name="kanban-box">
+                    <div class="oe_kanban_global_click">
+                      <strong><field name="name"/></strong>
+                      <div><field name="role"/></div>
+                    </div>
+                  </t>
+                </templates>
+              </kanban>
+            </field>
           </group>
         </sheet>
       </form>
     </field>
   </record>
 
+  <!-- kanban（team 的整體看板） -->
+  <record id="view_team_kanban" model="ir.ui.view">
+    <field name="name">team.management.team.kanban</field>
+    <field name="model">team.management.team</field>
+    <field name="arch" type="xml">
+      <kanban default_group_by="project_id">
+        <field name="name"/>
+        <field name="description"/>
+        <field name="project_id"/>
+        <templates>
+          <t t-name="kanban-box">
+            <div class="oe_kanban_global_click">
+              <strong><field name="name"/></strong>
+              <div><field name="description"/></div>
+              <div t-if="record.project_id.raw_value">
+                Project: <field name="project_id"/>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
+  <!-- 用舊的 action，但讓它支援 kanban -->
   <record id="action_team_management" model="ir.actions.act_window">
     <field name="name">Teams</field>
     <field name="res_model">team.management.team</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">kanban,tree,form</field>
   </record>
 
+  <!-- 選單仍連到 action_team_management 就好 -->
   <menuitem id="menu_team_root" name="Team Management" sequence="10"/>
   <menuitem id="menu_team" name="Teams" parent="menu_team_root" action="action_team_management"/>
+
 </odoo>
