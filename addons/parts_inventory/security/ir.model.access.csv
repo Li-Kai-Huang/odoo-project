@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_parts_inventory_part,access_parts_inventory_part,model_parts_inventory_part,,1,1,1,1
+access_parts_inventory_stock_move,access_parts_inventory_stock_move,model_parts_inventory_stock_move,,1,1,1,1

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <menuitem id="menu_parts_root" name="Parts Inventory" sequence="20"/>
+  <menuitem id="menu_parts" name="Parts" parent="menu_parts_root" action="action_parts" sequence="10"/>
+  <menuitem id="menu_stock_moves" name="Stock Moves" parent="menu_parts_root" action="action_stock_moves" sequence="20"/>
+</odoo>
