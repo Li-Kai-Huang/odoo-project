@@ -12,6 +12,7 @@ Odoo 的 View 就像 UI 的「武功祕笈」，常見的招式有四種：
 
 - **Tree View（清單大法）**  
   適合快速瀏覽，一次看多筆。  
+
   ```xml
   <tree>
     <field name="name"/>
@@ -21,6 +22,7 @@ Odoo 的 View 就像 UI 的「武功祕笈」，常見的招式有四種：
 
 - **Form View（單筆心法）**  
   單筆資料的細節編輯，必備。  
+
   ```xml
   <form>
     <sheet>
@@ -34,6 +36,7 @@ Odoo 的 View 就像 UI 的「武功祕笈」，常見的招式有四種：
 
 - **Kanban View（看板神功）**  
   資料變卡片，可以拖拉，管理專案超方便。  
+
   ```xml
   <kanban default_group_by="project_id">
     <templates>
@@ -49,6 +52,7 @@ Odoo 的 View 就像 UI 的「武功祕笈」，常見的招式有四種：
 
 - **Search View（搜尋祕術）**  
   幫你定義搜尋欄與篩選器，快速找到目標。  
+
   ```xml
   <search>
     <field name="name"/>
@@ -64,6 +68,7 @@ XML 在 Odoo 世界裡就像建築藍圖。
 你在 XML 裡說「這裡要一個 `<field>`」，Odoo 就自動幫你跟 ORM 接好線，畫面馬上長出欄位。  
 
 優點有三：  
+
 1. 結構化，讀起來一清二楚  
 2. 可繼承，用 `<xpath>` 輕鬆插內容  
 3. 跟 ORM 綁定超緊密，欄位不必手刻  
@@ -76,11 +81,13 @@ QWeb 就是 Odoo 的模板引擎，負責「最後一哩路」的渲染。
 不管是 Kanban 卡片還是 PDF 報表，都要靠它。
 
 常用招式：  
+
 - `t-esc` → 輸出文字，幫你自動 escape  
 - `t-if` → 條件判斷，像 if-else  
 - `t-foreach` → 迴圈神器  
 
 範例（Kanban 卡片）：  
+
 ```xml
 <t t-name="kanban-box">
   <div>
@@ -93,6 +100,7 @@ QWeb 就是 Odoo 的模板引擎，負責「最後一哩路」的渲染。
 ```
 
 結果：  
+
 - 顯示成員名字  
 - 如果是 Leader，就帥氣加上「隊長」徽章 🎖️  
 

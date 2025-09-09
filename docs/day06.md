@@ -15,6 +15,7 @@
 - **`models.AbstractModel`** → 純工具人，自己不能住，專門給別人繼承。  
 
 範例：
+
 ```python
 class Team(models.Model):
     _name = "team.management.team"
@@ -23,6 +24,7 @@ class Team(models.Model):
     name = fields.Char(string="Name", required=True)
     description = fields.Text(string="Description")
 ```
+
 👉 一瞬間，你就多了一張 `team_management_team` 表。很省事對吧？
 
 ---
@@ -44,6 +46,7 @@ Field = 欄位，就是每張表的家具配置。
   - `Many2many`：多對多（室友互相串門子）  
 
 範例：
+
 ```python
 class TeamMember(models.Model):
     _name = "team.management.member"
@@ -60,7 +63,7 @@ class TeamMember(models.Model):
 
 ---
 
-## 3) Record：開始操控資料吧！
+## 3) Record：開始操控資料吧
 
 Record 就是「這張表的一筆資料」，操作起來像操控 Python 物件一樣簡單。
 

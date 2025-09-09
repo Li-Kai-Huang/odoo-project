@@ -66,16 +66,23 @@
 
   <!-- Search View -->
   <record id="view_team_search" model="ir.ui.view">
-    <field name="name">team.management.team.search</field>
-    <field name="model">team.management.team</field>
-    <field name="arch" type="xml">
-      <search>
-        <field name="name"/>
-        <field name="description"/>
-        <filter string="Has Project" domain="[('project_id','!=',False)]"/>
-      </search>
-    </field>
-  </record>
+  <field name="name">team.management.team.search</field>
+  <field name="model">team.management.team</field>
+  <field name="arch" type="xml">
+    <search string="Search Teams">
+      <field name="name"/>
+      <field name="description"/>
+      <filter name="has_project"
+              string="Has Project"
+              domain="[('project_id','!=', False)]"/>
+      <group expand="0" string="Group By">
+        <filter name="group_by_project"
+                string="Project"
+                context="{'group_by': 'project_id'}"/>
+      </group>
+    </search>
+  </field>
+</record>
 
   <!-- Action -->
   <record id="action_team" model="ir.actions.act_window">
