@@ -11,7 +11,6 @@
       </tree>
     </field>
   </record>
-
   <record id="view_member_form" model="ir.ui.view">
     <field name="name">team.management.member.form</field>
     <field name="model">team.management.member</field>
@@ -22,6 +21,8 @@
             <field name="name"/>
             <field name="role"/>
             <field name="team_id"/>
+            <!-- Day06: 這行是新的 -->
+            <field name="user_id"/>
           </group>
         </sheet>
       </form>

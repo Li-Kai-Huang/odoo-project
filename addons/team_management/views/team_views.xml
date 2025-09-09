@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
   <!-- tree -->
   <record id="view_team_tree" model="ir.ui.view">
     <field name="name">team.management.team.tree</field>
@@ -12,7 +11,6 @@
       </tree>
     </field>
   </record>
-
   <!-- form（成員子頁籤加 mode="tree,kanban"） -->
   <record id="view_team_form" model="ir.ui.view">
     <field name="name">team.management.team.form</field>
@@ -21,31 +19,45 @@
       <form>
         <header>
           <button name="action_open_project"
-                  type="object"
-                  string="Project"
-                  class="oe_stat_button"
-                  invisible="not project_id"/>
+            type="object"
+            string="Project"
+            class="oe_stat_button"
+            invisible="not project_id"/>
         </header>
         <sheet>
           <group>
             <field name="name"/>
             <field name="description"/>
             <field name="project_id"/>
+            <!-- Day06: 顯示成員數（唯讀） -->
+            <field name="member_count" readonly="1"/>
           </group>
           <group>
             <field name="member_ids" mode="tree,kanban" context="{'default_team_id': active_id}">
               <tree editable="bottom">
                 <field name="name"/>
                 <field name="role"/>
+                <!-- Day06: 顯示關聯使用者 -->
+                <field name="user_id"/>
               </tree>
               <kanban>
                 <field name="name"/>
                 <field name="role"/>
+                <field name="user_id"/>
                 <templates>
                   <t t-name="kanban-box">
                     <div class="oe_kanban_global_click">
-                      <strong><field name="name"/></strong>
-                      <div><field name="role"/></div>
+                      <strong>
+                        <field name="name"/>
+                      </strong>
+                      <div>
+                        <field name="role"/>
+                      </div>
+                      <div t-if="record.user_id.raw_value">
+                        <span>
+                          <field name="user_id"/>
+                        </span>
+                      </div>
                     </div>
                   </t>
                 </templates>
@@ -56,7 +68,6 @@
       </form>
     </field>
   </record>
-
   <!-- kanban（team 的整體看板） -->
   <record id="view_team_kanban" model="ir.ui.view">
     <field name="name">team.management.team.kanban</field>
@@ -69,10 +80,15 @@
         <templates>
           <t t-name="kanban-box">
             <div class="oe_kanban_global_click">
-              <strong><field name="name"/></strong>
-              <div><field name="description"/></div>
+              <strong>
+                <field name="name"/>
+              </strong>
+              <div>
+                <field name="description"/>
+              </div>
               <div t-if="record.project_id.raw_value">
-                Project: <field name="project_id"/>
+                Project:
+                <field name="project_id"/>
               </div>
             </div>
           </t>
@@ -80,16 +96,13 @@
       </kanban>
     </field>
   </record>
-
   <!-- 用舊的 action，但讓它支援 kanban -->
   <record id="action_team_management" model="ir.actions.act_window">
     <field name="name">Teams</field>
     <field name="res_model">team.management.team</field>
     <field name="view_mode">kanban,tree,form</field>
   </record>
-
   <!-- 選單仍連到 action_team_management 就好 -->
   <menuitem id="menu_team_root" name="Team Management" sequence="10"/>
   <menuitem id="menu_team" name="Teams" parent="menu_team_root" action="action_team_management"/>
-
 </odoo>
