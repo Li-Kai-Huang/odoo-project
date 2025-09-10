@@ -11,6 +11,12 @@ class Part(models.Model):
     team_id = fields.Many2one("team.management.team", string="Team")
     active = fields.Boolean(string="Active", default=True)
 
+    stock_move_ids = fields.One2many(
+        "parts.inventory.stock.move",
+        "part_id",
+        string="Stock Moves"
+    )
+
     _sql_constraints = [
         ("uniq_part_code", "unique(code)", "Part code must be unique."),
     ]
