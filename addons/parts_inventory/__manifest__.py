@@ -1,20 +1,15 @@
-# -*- coding: utf-8 -*-
+# addons/parts_inventory/__manifest__.py
 {
     "name": "Parts Inventory",
-    "summary": "Manage parts and stock moves (lightweight flow)",
-    "description": "Simple parts inventory with in/out moves for Week 2 Day 09.",
-    "author": "likai_huang",
     "version": "0.1",
-    "website": "https://example.com",
-    "category": "Inventory",
-    "depends": ["base", "team_management"],
-    "data": [
-        "security/ir.model.access.csv",
-        "views/part_views.xml",
-        "views/stock_move_views.xml",
-        "views/menu.xml",
-    ],
-    "demo": [],
+'depends': ['base', 'product', 'team_management'],  # 要有 product
+'data': [
+    'security/ir.model.access.csv',
+    'views/part_views.xml',
+    'views/stock_move_views.xml',
+    'views/wizard_views.xml',
+    'views/product_views.xml',
+    'views/menu.xml',              # ← 放最後
+],
     "application": False,
-    "license": "LGPL-3",
 }

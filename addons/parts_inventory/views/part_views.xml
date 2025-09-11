@@ -1,23 +1,52 @@
 <odoo>
-  <record id="view_part_tree" model="ir.ui.view">
+  <!-- Tree：清單要看到 Code / Name / Quantity / Team / Active -->
+  <record id="view_parts_tree" model="ir.ui.view">
     <field name="name">parts.inventory.part.tree</field>
     <field name="model">parts.inventory.part</field>
     <field name="arch" type="xml">
       <tree>
-        <field name="code"/>
-        <field name="name"/>
-        <field name="quantity"/>
-        <field name="team_id"/>
-        <field name="active"/>
+        <field name="code" string="Part Code"/>
+        <field name="name" string="Part Name"/>
+        <field name="quantity" string="Quantity in Stock"/>
+        <field name="team_id" string="Team"/>
+        <field name="active" string="Active"/>
       </tree>
     </field>
   </record>
 
-  <record id="view_part_form" model="ir.ui.view">
+  <!-- Search：常用搜尋 + 篩選 Active/Inactive -->
+  <record id="view_parts_search" model="ir.ui.view">
+    <field name="name">parts.inventory.part.search</field>
+    <field name="model">parts.inventory.part</field>
+    <field name="arch" type="xml">
+      <search string="Search Parts">
+        <field name="code" string="Part Code"/>
+        <field name="name" string="Part Name"/>
+        <field name="team_id" string="Team" filter_domain="[]"/>
+        <filter string="Active" name="active_true" domain="[('active','=',True)]" help="Active parts"/>
+        <filter string="Archived" name="active_false" domain="[('active','=',False)]" help="Inactive parts"/>
+      </search>
+    </field>
+  </record>
+
+  <!-- Form：欄位 + One2many 明細 + Smart Button（打開該 Part 的 Moves） -->
+  <record id="view_parts_form" model="ir.ui.view">
     <field name="name">parts.inventory.part.form</field>
     <field name="model">parts.inventory.part</field>
     <field name="arch" type="xml">
       <form>
+        <header>
+          <!-- 只有存檔後才顯示；按下去會開這顆料的 Moves -->
+          <button class="oe_stat_button"
+                  type="action"
+                  name="%(action_moves_from_part)d"
+                  invisible="not id">
+            <div class="o_stat_info">
+              <span class="o_stat_text">Team Moves</span>
+            </div>
+          </button>
+        </header>
+
         <sheet>
           <group>
             <field name="name"/>
@@ -27,17 +56,12 @@
             <field name="team_id"/>
             <field name="active"/>
           </group>
+
           <notebook>
             <page string="Stock Moves">
-              <field name="stock_move_ids">
-                <tree editable="bottom">
-                  <field name="date"/>
-                  <field name="move_type"/>
-                  <field name="quantity"/>
-                  <field name="state"/>
-                  <field name="note"/>
-                </tree>
-              </field>
+              <!-- 讓 One2many 以清單顯示，點進去仍可開 form -->
+              <field name="move_ids" mode="tree,form"
+                     context="{'default_part_id': active_id}"/>
             </page>
           </notebook>
         </sheet>
@@ -45,9 +69,11 @@
     </field>
   </record>
 
-  <record id="action_part" model="ir.actions.act_window">
-    <field name="name">Parts</field>
+  <!-- Action：list + form -->
+  <record id="action_parts" model="ir.actions.act_window">
+    <field name="name">Team Parts</field>
     <field name="res_model">parts.inventory.part</field>
     <field name="view_mode">tree,form</field>
+    <field name="search_view_id" ref="view_parts_search"/>
   </record>
 </odoo>

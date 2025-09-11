@@ -1,0 +1,43 @@
+<odoo>
+  <!-- 在清單上補 Team / On Hand（可留可不留） -->
+  <record id="view_product_template_tree_inherit_team" model="ir.ui.view">
+    <field name="name">product.template.tree.inherit.team</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_tree_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//tree/field[@name='default_code']" position="after">
+        <field name="team_id"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- 表單：加 Team 區塊 + Smart Button + Quick Move -->
+  <record id="view_product_template_form_inherit_team" model="ir.ui.view">
+    <field name="name">product.template.form.inherit.team</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <field name="arch" type="xml">
+      <data>
+        <!-- 產品基本資訊頁籤中加 Team -->
+        <xpath expr="//sheet/notebook/page[@name='general_information']/group" position="inside">
+          <group string="Team">
+            <field name="team_id"/>
+          </group>
+        </xpath>
+
+        <!-- Header：Smart Button（打開你定義的 action_team_moves）-->
+        <xpath expr="//header" position="inside">
+          <button type="action"
+                  name="%(action_team_moves)d"
+                  string="Team Moves"
+                  class="oe_stat_button"/>
+          <!-- Header：Quick Move（呼叫方法開 wizard） -->
+          <button type="object"
+                  name="action_open_quick_move_wizard"
+                  string="Quick Move"
+                  class="oe_highlight"/>
+        </xpath>
+      </data>
+    </field>
+  </record>
+</odoo>

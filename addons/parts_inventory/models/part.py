@@ -11,10 +11,9 @@ class Part(models.Model):
     team_id = fields.Many2one("team.management.team", string="Team")
     active = fields.Boolean(string="Active", default=True)
 
-    stock_move_ids = fields.One2many(
-        "parts.inventory.stock.move",
-        "part_id",
-        string="Stock Moves"
+    # <<< 新增：表單底下要顯示的異動明細 >>>
+    move_ids = fields.One2many(
+        "parts.inventory.stock.move", "part_id", string="Stock Moves", readonly=True
     )
 
     _sql_constraints = [
