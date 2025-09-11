@@ -1,0 +1,30 @@
+<odoo>
+  <!-- 單筆 Part 的內容段落（可保留，供重用）-->
+  <template id="report_part_pdf_document">
+    <!-- 先把 company 丟給外框 -->
+    <t t-set="company" t-value="res_company or env.company"/>
+    <t t-call="web.external_layout_standard">
+      <t t-set="o" t-value="doc"/>
+      <div class="page">
+        <h2>Part</h2>
+        <table class="table table-sm">
+          <tr><th>Code</th><td><t t-esc="o.code"/></td></tr>
+          <tr><th>Name</th><td><t t-esc="o.name"/></td></tr>
+          <tr><th>Quantity</th><td><t t-esc="o.quantity"/></td></tr>
+          <tr><th>Team</th><td><t t-esc="o.team_id.display_name or ''"/></td></tr>
+          <tr><th>Description</th><td><t t-esc="o.description or ''"/></td></tr>
+        </table>
+      </div>
+    </t>
+  </template>
+
+  <!-- 這個 id 要和 ir.actions.report 的 report_name 一致 -->
+  <template id="report_part_pdf">
+    <!-- ✅ 外層一定要用 html_container，才能產生 <main> -->
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="parts_inventory.report_part_pdf_document"/>
+      </t>
+    </t>
+  </template>
+</odoo>

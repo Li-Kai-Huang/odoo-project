@@ -4,16 +4,18 @@ class Part(models.Model):
     _name = "parts.inventory.part"
     _description = "Part"
 
-    name = fields.Char(string="Part Name", required=True)
-    code = fields.Char(string="Part Code", required=True)
-    description = fields.Text(string="Description")
-    quantity = fields.Float(string="Quantity in Stock", default=0.0)
-    team_id = fields.Many2one("team.management.team", string="Team")
-    active = fields.Boolean(string="Active", default=True)
+    name = fields.Char(required=True)
+    code = fields.Char(required=True)
+    description = fields.Text()
+    quantity = fields.Float(default=0.0)
+    team_id = fields.Many2one("team.management.team")
+    active = fields.Boolean(default=True)
 
-    # <<< 新增：表單底下要顯示的異動明細 >>>
+    # 關鍵：一定要有正確的 one2many 反向欄位
     move_ids = fields.One2many(
-        "parts.inventory.stock.move", "part_id", string="Stock Moves", readonly=True
+        "parts.inventory.stock.move",  # 目標模型
+        "part_id",                     # 反向 Many2one 欄位名 ← 必須跟 Move 裡的一致
+        string="Stock Moves",
     )
 
     _sql_constraints = [

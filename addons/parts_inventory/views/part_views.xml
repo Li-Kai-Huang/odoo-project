@@ -13,7 +13,6 @@
       </tree>
     </field>
   </record>
-
   <!-- Search：常用搜尋 + 篩選 Active/Inactive -->
   <record id="view_parts_search" model="ir.ui.view">
     <field name="name">parts.inventory.part.search</field>
@@ -28,7 +27,6 @@
       </search>
     </field>
   </record>
-
   <!-- Form：欄位 + One2many 明細 + Smart Button（打開該 Part 的 Moves） -->
   <record id="view_parts_form" model="ir.ui.view">
     <field name="name">parts.inventory.part.form</field>
@@ -36,17 +34,26 @@
     <field name="arch" type="xml">
       <form>
         <header>
-          <!-- 只有存檔後才顯示；按下去會開這顆料的 Moves -->
+          <!-- Smart Button：打開 Moves（你已經有 action_moves_from_part 的話保持不變） -->
           <button class="oe_stat_button"
-                  type="action"
-                  name="%(action_moves_from_part)d"
-                  invisible="not id">
+          type="action"
+          name="%(parts_inventory.action_moves_from_part)d"
+          invisible="not id">
             <div class="o_stat_info">
               <span class="o_stat_text">Team Moves</span>
             </div>
           </button>
+          <!-- Print PDF：引用剛剛定義的 ir.actions.report -->
+          <button name="%(parts_inventory.action_report_part_pdf)d"
+          type="action"
+          string="Print PDF"
+          class="oe_highlight"/>
+          <!-- Export Excel：引用 wizard 的 action（不要放數字） -->
+          <button type="action"
+          name="%(parts_inventory.action_open_export_moves_wizard_from_part)d"
+          string="Export Excel"
+          class="btn-secondary"/>
         </header>
-
         <sheet>
           <group>
             <field name="name"/>
@@ -56,24 +63,29 @@
             <field name="team_id"/>
             <field name="active"/>
           </group>
-
           <notebook>
             <page string="Stock Moves">
               <!-- 讓 One2many 以清單顯示，點進去仍可開 form -->
-              <field name="move_ids" mode="tree,form"
-                     context="{'default_part_id': active_id}"/>
+              <field name="move_ids" mode="tree,form" context="{}"/>
             </page>
           </notebook>
         </sheet>
       </form>
     </field>
   </record>
-
   <!-- Action：list + form -->
   <record id="action_parts" model="ir.actions.act_window">
     <field name="name">Team Parts</field>
     <field name="res_model">parts.inventory.part</field>
     <field name="view_mode">tree,form</field>
     <field name="search_view_id" ref="view_parts_search"/>
+  </record>
+  <record id="action_moves_from_part" model="ir.actions.act_window">
+    <field name="name">Team Moves</field>
+    <field name="res_model">parts.inventory.stock.move</field>
+    <field name="view_mode">tree,form</field>
+    <!-- 從 Part 的 smart button 進來：帶 domain + default_part_id -->
+    <field name="domain">[('part_id', '=', active_id)]</field>
+    <field name="context">{'default_part_id': active_id}</field>
   </record>
 </odoo>

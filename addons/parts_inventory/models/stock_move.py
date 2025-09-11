@@ -6,31 +6,55 @@ class StockMove(models.Model):
     _description = "Stock Move"
     _order = "date desc, id desc"
 
-    part_id = fields.Many2one("parts.inventory.part", required=True, ondelete="cascade")
-    move_type = fields.Selection([("in","Stock In"),("out","Stock Out")], required=True, default="in")
-    quantity = fields.Float(required=True)
-    date = fields.Datetime(default=fields.Datetime.now)
-    note = fields.Char()
-    state = fields.Selection([("draft","Draft"),("confirmed","Confirmed"),("cancel","Cancelled")], default="draft")
+    part_id = fields.Many2one(
+        "parts.inventory.part", string="Part", required=True, ondelete="cascade"
+    )
+    # ✅ 補這個欄位（和 team 一起搜尋會快，非常常用）
+    team_id = fields.Many2one(
+        "team.management.team",
+        string="Team",
+        related="part_id.team_id",
+        store=True,
+        index=True,
+    )
+
+    move_type = fields.Selection([("in", "Stock In"), ("out", "Stock Out")],
+                                 string="Move Type", required=True, default="in")
+    quantity = fields.Float(string="Quantity", required=True)
+    note = fields.Char(string="Note")
+    date = fields.Datetime(string="Date", default=fields.Datetime.now)
+    state = fields.Selection([("draft", "Draft"), ("confirmed", "Confirmed"), ("cancel", "Cancelled")],
+                             default="draft", string="Status")
 
     @api.constrains("quantity")
-    def _check_qty(self):
-        for r in self:
-            if r.quantity <= 0:
+    def _check_qty_positive(self):
+        for rec in self:
+            if rec.quantity <= 0:
                 raise ValidationError("Quantity must be > 0.")
 
     def action_confirm(self):
-        for r in self:
-            if r.state != "draft":
+        for rec in self:
+            if rec.state != "draft":
                 continue
-            # 真正影響在 parts.inventory.part 的 compute（你已寫好）會自動反映
-            # 這裡只需將狀態改為 confirmed
-            r.state = "confirmed"
+            part = rec.part_id.sudo()
+            if rec.move_type == "in":
+                part.quantity += rec.quantity
+            else:
+                if part.quantity < rec.quantity:
+                    raise ValidationError("Not enough stock to move out.")
+                part.quantity -= rec.quantity
+            rec.state = "confirmed"
 
     def action_cancel(self):
-        for r in self:
-            # 若你要允許「已確認可回滾」，單純把狀態設為 cancel
-            if r.state == "confirmed":
-                r.state = "cancel"
-            elif r.state == "draft":
-                r.state = "cancel"
+        for rec in self:
+            if rec.state != "confirmed":
+                rec.state = "cancel"
+                continue
+            part = rec.part_id.sudo()
+            if rec.move_type == "in":
+                if part.quantity < rec.quantity:
+                    raise ValidationError("Cannot cancel: stock not enough to revert.")
+                part.quantity -= rec.quantity
+            else:
+                part.quantity += rec.quantity
+            rec.state = "cancel"

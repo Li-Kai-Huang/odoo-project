@@ -5,3 +5,4 @@ from . import part
 from . import stock_move
 from . import product
 from . import quick_move_wizard
+from . import export_moves_wizard

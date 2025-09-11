@@ -1,0 +1,10 @@
+<odoo>
+  <!-- PDF Action：給按鈕用的 external id -->
+  <record id="action_report_part_pdf" model="ir.actions.report">
+    <field name="name">Part PDF</field>
+    <field name="model">parts.inventory.part</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">parts_inventory.report_part_pdf</field>
+    <field name="print_report_name">'PART_' + (object.code or object.name)</field>
+  </record>
+</odoo>

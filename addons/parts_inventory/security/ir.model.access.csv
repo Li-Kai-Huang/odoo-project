@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 parts_inventory_part_user,parts_inventory_part_user,model_parts_inventory_part,base.group_user,1,1,1,1
 parts_inventory_stock_move_user,parts_inventory_stock_move_user,model_parts_inventory_stock_move,base.group_user,1,1,1,1
 parts_inventory_quick_move_wiz_user,parts_inventory_quick_move_wiz_user,model_parts_inventory_quick_move_wizard,base.group_user,1,0,1,0
+parts_inventory.access_parts_inventory_export_moves_wizard,access_parts_inventory_export_moves_wizard,model_parts_inventory_export_moves_wizard,base.group_user,1,0,0,0

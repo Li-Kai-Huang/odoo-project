@@ -3,13 +3,20 @@
     "name": "Parts Inventory",
     "version": "0.1",
 'depends': ['base', 'product', 'team_management'],  # 要有 product
-'data': [
-    'security/ir.model.access.csv',
-    'views/part_views.xml',
-    'views/stock_move_views.xml',
-    'views/wizard_views.xml',
-    'views/product_views.xml',
-    'views/menu.xml',              # ← 放最後
+"data": [
+    "security/ir.model.access.csv",
+
+    # 報表（讓表單按鈕能找到 action）
+    "reports/templates.xml",
+    "reports/report.xml",
+
+    # 其他 action / view
+    "views/stock_move_views.xml",
+    "views/wizard_views.xml",
+    "views/part_views.xml",
+    "views/product_views.xml",
+    "views/menu.xml",
 ],
+
     "application": False,
 }
