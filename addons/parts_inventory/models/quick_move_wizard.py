@@ -1,11 +1,12 @@
-from odoo import models, fields, api
+# -*- coding: utf-8 -*-
+from odoo import models, fields
 
-class QuickMoveWizard(models.TransientModel):
-    _name = "parts.inventory.quick.move.wizard"
+class ExportMovesWizard(models.TransientModel):
+    _name = "parts.inventory.export.moves.wizard"
     _description = "Quick Move Wizard"
 
     part_id = fields.Many2one("parts.inventory.part", required=True)
-    move_type = fields.Selection([("in","Stock In"),("out","Stock Out")], default="in", required=True)
+    move_type = fields.Selection([("in", "Stock In"), ("out", "Stock Out")], default="in", required=True)
     quantity = fields.Float(required=True, default=1.0)
     note = fields.Char()
 
@@ -18,5 +19,6 @@ class QuickMoveWizard(models.TransientModel):
                 "quantity": w.quantity,
                 "note": w.note,
             })
-            move.action_confirm()
+            # ➜ 走審核流程：先送審（不動庫存）
+            move.action_submit()
         return {"type": "ir.actions.act_window_close"}

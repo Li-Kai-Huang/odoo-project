@@ -33,8 +33,8 @@
 
 ---
 
-## 系統藍圖（文字版）
-
+## 系統藍圖
+``` bash
 [訪客/夥伴] ──(Website/表單)──> [CRM/線索]
 [教練/組長/組員] ──(Web/PWA)──> [Project/Task] ──關聯──> [Inventory/Stock Moves]
 │ │
@@ -42,3 +42,4 @@
 └── AI 管家 → 摘要/查詢/提醒
 所有業務資料 → PostgreSQL
 自製模組：team_management / parts_inventory_ext / task_manager_ext / ai_butler
+```

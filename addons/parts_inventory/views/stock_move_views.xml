@@ -1,10 +1,10 @@
-<!-- addons/parts_inventory/views/stock_move_views.xml -->
 <odoo>
+  <!-- Tree -->
   <record id="view_stock_move_tree" model="ir.ui.view">
     <field name="name">parts.inventory.stock.move.tree</field>
     <field name="model">parts.inventory.stock.move</field>
     <field name="arch" type="xml">
-      <tree editable="bottom">
+      <tree>
         <field name="date"/>
         <field name="move_type"/>
         <field name="quantity"/>
@@ -13,19 +13,27 @@
       </tree>
     </field>
   </record>
-
+  <!-- Form -->
   <record id="view_stock_move_form" model="ir.ui.view">
     <field name="name">parts.inventory.stock.move.form</field>
     <field name="model">parts.inventory.stock.move</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_confirm" type="object"
-                  string="Confirm" class="oe_highlight"
-                  invisible="state != 'draft'"/>
-          <button name="action_cancel" type="object"
-                  string="Cancel" class="btn-secondary"
-                  invisible="state != 'confirmed'"/>
+          <!-- 草稿 → 送審 -->
+          <button name="action_submit" type="object" string="Submit"
+          class="oe_highlight"
+          invisible="state != 'draft'"/>
+          <!-- 待審 → 核准（僅 Manager 可見） -->
+          <button name="action_approve" type="object" string="Approve"
+          class="oe_highlight"
+          groups="parts_inventory.group_parts_manager"
+          invisible="state != 'to_approve'"/>
+          <!-- 待審 → 退回（僅 Manager 可見） -->
+          <button name="action_reject" type="object" string="Reject"
+          class="btn-secondary"
+          groups="parts_inventory.group_parts_manager"
+          invisible="state != 'to_approve'"/>
         </header>
         <sheet>
           <group>
@@ -40,8 +48,7 @@
       </form>
     </field>
   </record>
-
-  <!-- ✅ 從 Part 啟動的 Moves action（只看該 Part） -->
+  <!-- 從 Part 打開：只看該 Part 的 Moves -->
   <record id="action_moves_from_part" model="ir.actions.act_window">
     <field name="name">Team Moves</field>
     <field name="res_model">parts.inventory.stock.move</field>
@@ -50,17 +57,13 @@
     <field name="context">{}</field>
     <field name="target">current</field>
   </record>
-
-  <!-- 定義被產品頁 Smart Button 呼叫的 action -->
-<record id="action_team_moves" model="ir.actions.act_window">
-  <field name="name">Team Moves</field>
-  <field name="res_model">parts.inventory.stock.move</field>
-  <field name="view_mode">tree,form</field>
-  <!-- 這裡先不要用 product_tmpl_id 篩，因為你的 move 目前只有 part_id
-       先給空的 domain，之後再補資料模型對應 -->
-  <field name="domain">[]</field>
-  <field name="context">{}</field>
-  <field name="target">current</field>
-</record>
-
+  <!-- 從產品 Smart Button 打開（暫給空 domain） -->
+  <record id="action_team_moves" model="ir.actions.act_window">
+    <field name="name">Team Moves</field>
+    <field name="res_model">parts.inventory.stock.move</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+    <field name="target">current</field>
+  </record>
 </odoo>

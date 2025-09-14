@@ -1,0 +1,14 @@
+<odoo>
+  <data>
+    <record id="group_parts_user" model="res.groups">
+      <field name="name">Parts User</field>
+      <field name="category_id" ref="base.module_category_inventory"/>
+    </record>
+
+    <record id="group_parts_manager" model="res.groups">
+      <field name="name">Parts Manager</field>
+      <field name="implied_ids" eval="[(4, ref('parts_inventory.group_parts_user'))]"/>
+      <field name="category_id" ref="base.module_category_inventory"/>
+    </record>
+  </data>
+</odoo>

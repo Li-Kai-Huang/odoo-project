@@ -1,16 +1,11 @@
+<!-- views/menu.xml -->
 <odoo>
-  <menuitem id="menu_parts_root" name="Parts" sequence="90"/>
-  <menuitem id="menu_team_parts"
-            name="Team Parts"
-            parent="menu_parts_root"
-            action="parts_inventory.action_parts"
-            sequence="10"/>
-  <!-- 若你有「Team Moves」清單要從主選單打開，也可以放一個不帶 active_id 的版本 -->
-  <!--
-  <menuitem id="menu_team_moves"
-            name="Team Moves"
-            parent="menu_parts_root"
-            action="parts_inventory.action_team_moves"
-            sequence="20"/>
-  -->
+  <!-- 根目錄 -->
+  <menuitem id="menu_parts_root" name="Parts Inventory" sequence="10"
+            groups="parts_inventory.group_parts_user,parts_inventory.group_parts_manager"/>
+
+  <!-- 子選單：Parts 清單 -->
+  <menuitem id="menu_team_parts" name="Parts" parent="menu_parts_root"
+            action="parts_inventory.action_parts" sequence="10"
+            groups="parts_inventory.group_parts_user,parts_inventory.group_parts_manager"/>
 </odoo>
