@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_task_form_inherit_assignment" model="ir.ui.view">
+        <field name="name">project.task.form.inherit.assignment</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="after">
+                <group string="Task Assignment &amp; Progress">
+                    <field name="user_ids" widget="many2many_tags" />
+                    <field name="progress" widget="progressbar"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_kanban_inherit" model="ir.ui.view">
+        <field name="name">project.task.kanban.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban/templates//ul" position="inside">
+                <li t-if="record.user_ids.raw_value">
+                    <field name="user_ids" widget="many2many_tags"/>
+                </li>
+                <li>
+                    <field name="progress" widget="progressbar"/>
+                </li>
+            </xpath>
+        </field>
+    </record>
+</odoo>
