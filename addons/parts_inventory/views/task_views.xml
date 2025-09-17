@@ -1,0 +1,17 @@
+<odoo>
+  <!-- 在 Project 的 Task 表單加上 Related Part -->
+  <record id="view_task_form_inherit_part" model="ir.ui.view">
+    <field name="name">project.task.form.inherit.parts</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_form2"/>
+    <field name="arch" type="xml">
+      <!-- 在主要資訊區塊後面插入欄位（位置若不同，調整 xpath 即可） -->
+      <xpath expr="//sheet//group" position="inside">
+        <group string="Parts">
+          <field name="part_id" options="{'no_create_edit': True}"/>
+          <field name="part_team_id" readonly="1"/>
+        </group>
+      </xpath>
+    </field>
+  </record>
+</odoo>

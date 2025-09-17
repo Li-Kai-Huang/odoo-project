@@ -4,3 +4,5 @@ access_stock_move_user,access.stock.move.user,model_parts_inventory_stock_move,p
 access_wizard_export_user,access.export.wizard.user,model_parts_inventory_export_moves_wizard,parts_inventory.group_parts_user,1,0,1,0
 access_parts_manager,access.parts.manager,model_parts_inventory_part,parts_inventory.group_parts_manager,1,1,1,1
 access_stock_move_manager,access.stock.move.manager,model_parts_inventory_stock_move,parts_inventory.group_parts_manager,1,1,1,1
+access_stock_request,access_parts_inventory_stock_request,model_parts_inventory_stock_request,base.group_user,1,1,1,1
+access_stock_request_line,access_parts_inventory_stock_request_line,model_parts_inventory_stock_request_line,base.group_user,1,1,1,1

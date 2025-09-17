@@ -1,5 +1,17 @@
 <odoo>
-  <!-- Parts：Tree -->
+  <record id="action_parts" model="ir.actions.act_window">
+    <field name="name">Parts</field>
+    <field name="res_model">parts.inventory.part</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  <record id="action_tasks_from_part" model="ir.actions.act_window">
+    <field name="name">Related Tasks</field>
+    <field name="res_model">project.task</field>
+    <field name="view_mode">kanban,tree,form</field>
+    <field name="domain">[('part_id', '=', active_id)]</field>
+    <field name="context">{'default_part_id': active_id}</field>
+    <field name="target">current</field>
+  </record>
   <record id="view_parts_tree" model="ir.ui.view">
     <field name="name">parts.inventory.part.tree</field>
     <field name="model">parts.inventory.part</field>
@@ -13,15 +25,12 @@
       </tree>
     </field>
   </record>
-
-  <!-- Parts：Form -->
   <record id="view_parts_form" model="ir.ui.view">
     <field name="name">parts.inventory.part.form</field>
     <field name="model">parts.inventory.part</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <!-- Smart Button：只看此 Part 的 Moves -->
           <button class="oe_stat_button" type="action"
                   name="%(parts_inventory.action_moves_from_part)d"
                   invisible="not id">
@@ -29,17 +38,22 @@
               <span class="o_stat_text">Team Moves</span>
             </div>
           </button>
-
-          <!-- 列印 PDF（ir.actions.report 的 xmlid） -->
           <button name="%(parts_inventory.action_report_part_pdf)d" type="action"
                   string="Print PDF" class="oe_highlight"/>
-
-          <!-- 匯出 Excel（wizard action 的 xmlid） -->
           <button type="action"
                   name="%(parts_inventory.action_open_export_moves_wizard_from_part)d"
                   string="Export Excel" class="btn-secondary"/>
+          <xpath expr="//form/header" position="inside">
+            <button class="oe_stat_button"
+          type="action"
+          name="%(parts_inventory.action_tasks_from_part)d"
+          invisible="not id">
+              <div class="o_stat_info">
+                <span class="o_stat_text">Tasks</span>
+              </div>
+            </button>
+          </xpath>
         </header>
-
         <sheet>
           <group>
             <field name="name"/>
@@ -49,10 +63,8 @@
             <field name="team_id"/>
             <field name="active"/>
           </group>
-
           <notebook>
             <page string="Stock Moves">
-              <!-- 只展示（避免 inline 編輯造成 DOM/樣式錯亂） -->
               <field name="move_ids" mode="tree,form"
                      context="{}"/>
             </page>
@@ -60,12 +72,5 @@
         </sheet>
       </form>
     </field>
-  </record>
-
-  <!-- 開清單用 -->
-  <record id="action_parts" model="ir.actions.act_window">
-    <field name="name">Parts</field>
-    <field name="res_model">parts.inventory.part</field>
-    <field name="view_mode">tree,form</field>
   </record>
 </odoo>

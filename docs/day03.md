@@ -1,6 +1,6 @@
 # Day 03 — 打磨 Odoo 開發環境：Docker Compose + odoo.conf 最佳化
 
-昨天完成了 OCA 模組的引入，Apps List 已經能看到一堆 OCA 套件。今天要專注在「環境打磨」：確保開發環境足夠穩定，其他人 clone 專案下來也能一鍵起跑，不會踩到各種小坑。
+昨天完成了 OCA 模組的引入，Apps List 已經能看到一堆 OCA 套件。今天要專注在「環境打磨」：確保開發環境足夠穩定，讓其他人 clone 專案下來也能一鍵起跑，不會踩到各種小坑。
 
 ---
 
@@ -8,9 +8,9 @@
 
 昨天我們已經能啟動 Odoo + Postgres，今天加上幾個改進：
 
-- **healthcheck**：確保服務健康後再啟動依賴容器。  
-- **restart 策略**：容器掛掉時自動重啟。  
-- **資料持久化**：Postgres 跟 Odoo filestore 都用 volume 保存。
+- **healthcheck**：確保服務健康後再啟動依賴容器  
+- **restart 策略**：容器掛掉時自動重啟  
+- **資料持久化**：PostgreSQL 跟 Odoo filestore 都用 volume 保存
 
 ```yaml
 version: "3.8"
@@ -72,7 +72,7 @@ volumes:
 
 ## 2) 優化 odoo.conf
 
-加入 dbfilter 避免一堆測試 DB 出現；同時定義路徑、管理密碼與 log level。
+加入 `dbfilter` 避免一堆測試 DB 出現，同時定義路徑、管理密碼與 log level。
 
 ```ini
 [options]
@@ -99,7 +99,7 @@ docker compose up -d --force-recreate
 docker compose ps
 ```
 
-DB 應顯示 healthy。
+DB 應顯示 `healthy`。
 
 ### 2. Odoo log
 
@@ -107,26 +107,25 @@ DB 應顯示 healthy。
 docker compose logs --tail=100 odoo 
 ```
 
-沒有 Bad database manager password，就表示設定正確。
+沒有 `Bad database manager password`，就表示設定正確。
 
 ### 3. pgAdmin 連線
 
 - Host: db
-
-- Port: 5432
-
+- Port: 5432  
 - User: odoo / Pass: odoo
-能看到 ironman DB，展開 Schemas → public → Tables 就能確認表結構。
+
+能看到 `ironman` DB，展開 Schemas → public → Tables 就能確認表結構。
 
 ## 4) 測試與修正
 
 在 log 中還有兩個小警告需要修正：
 
-- version: 已被棄用
-  Compose v2 開始不需要在 docker-compose.yml 頂部加 version:，建議直接刪掉。
+- **version: 已被棄用**  
+  Compose v2 開始不需要在 `docker-compose.yml` 頂部加 `version:`，建議直接刪掉。
 
-- longpolling_port 已被棄用
-Odoo 17 把這個參數改名為 gevent_port。請把 odoo.conf 裡的：
+- **longpolling_port 已被棄用**  
+  Odoo 17 把這個參數改名為 `gevent_port`。請把 `odoo.conf` 裡的：
 
 ```ini
 longpolling_port = 8072
@@ -150,14 +149,12 @@ docker compose up -d --force-recreate
 
 今天把環境做了三件事：
 
-1. 強化 Compose，避免 DB 還沒 ready 就啟動 Odoo。
-
-2. odoo.conf 加上 dbfilter，避免雜 DB 干擾。
-
-3. 根據 log 警告做修正，讓設定更符合 Odoo 17 的官方標準。
+1. **強化 Compose**：避免 DB 還沒 ready 就啟動 Odoo
+2. **優化 odoo.conf**：加上 `dbfilter`，避免雜 DB 干擾  
+3. **根據 log 警告做修正**：讓設定更符合 Odoo 17 的官方標準
 
 雖然都是小細節，但這些「地基工程」確保了未來開發不會被奇怪的錯誤困擾。
 
 ## 6) 明日預告（Day 04）
 
-開始動手寫第一個「最小自製模組」：team_management，只包含最簡單的模型（Team / Member），確保模組骨架能正確安裝、升級、移除。
+開始動手寫第一個「最小自製模組」：`team_management`，只包含最簡單的模型（Team / Member），確保模組骨架能正確安裝、升級、移除。

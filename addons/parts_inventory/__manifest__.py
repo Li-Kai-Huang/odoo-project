@@ -15,6 +15,9 @@
     "views/wizard_views.xml",
     "views/part_views.xml",
     "views/product_views.xml",
+    "views/task_views.xml",
+    "views/stock_request_views.xml",
+    'data/sequence.xml',
     "views/menu.xml",
 ],
 
