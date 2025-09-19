@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_leader_dashboard_window" model="ir.actions.act_window">
+        <field name="name">Leader Dashboard</field>
+        <field name="res_model">team.management.team</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{'group_by': 'project_id'}</field>
+        <field name="domain">[]</field>
+    </record>
+
+    <menuitem
+        id="menu_leader_dashboard_root"
+        name="Leader Dashboard"
+        action="action_leader_dashboard_window"
+        sequence="10"
+        groups="team_management.group_team_leader"
+        web_icon="fa fa-dashboard"
+    />
+</odoo>

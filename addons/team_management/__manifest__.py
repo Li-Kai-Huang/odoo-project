@@ -7,11 +7,12 @@
     "website": "no website",
     "license": "LGPL-3",
     "category": "Tools",
-    "depends": ["base","project"],
+    "depends": ["base", "project"],
     "data": [
         "security/ir.model.access.csv",
         "views/team_views.xml",
         "views/member_views.xml",
+        #"views/menu_dashboard.xml", # 已註解，因為 Odoo 17 不再支援 'board' 視圖。
     ],
     "installable": True,
     "application": True,

@@ -1,3 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_team,access_team_management_team,model_team_management_team,base.group_user,1,1,1,1
-access_member,access_team_management_member,model_team_management_member,base.group_user,1,1,1,1
+access_team_member_all,team.management.member all access,model_team_management_member,team_management.group_team_coach,1,1,1,1
+access_team_member_leader,team.management.member leader access,model_team_management_member,team_management.group_team_leader,1,1,1,1
+access_team_member_member,team.management.member member access,model_team_management_member,team_management.group_team_member,1,0,0,0
+access_team_all,team.management.team all access,model_team_management_team,team_management.group_team_coach,1,1,1,1
+access_team_leader,team.management.team leader access,model_team_management_team,team_management.group_team_leader,1,1,1,1
+access_team_member,team.management.team member access,model_team_management_team,team_management.group_team_member,1,0,0,0

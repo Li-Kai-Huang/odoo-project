@@ -8,17 +8,17 @@ class Team(models.Model):
     name = fields.Char(string="Team Name", required=True)
     description = fields.Text(string="Description")
 
-    # 與 Project 的關聯（可選用，不裝 Project 模組也不會壞）
+    # 與 Project 的關聯（可選用，但若啟用，需安裝 Project 模組）
     project_id = fields.Many2one("project.project", string="Related Project")
 
-    # 成員一對多
+    # 成員一對多，使用 `team.management.member` 模型
     member_ids = fields.One2many(
         "team.management.member",
         "team_id",
         string="Members"
     )
 
-    # 計算欄位：成員數
+    # 計算欄位：成員數，會自動計算 member_ids 的數量
     member_count = fields.Integer(
         string="Member Count",
         compute="_compute_member_count",
@@ -27,6 +27,7 @@ class Team(models.Model):
 
     @api.depends("member_ids")
     def _compute_member_count(self):
+        """根據關聯的成員數量來計算成員數"""
         for rec in self:
             rec.member_count = len(rec.member_ids)
 
